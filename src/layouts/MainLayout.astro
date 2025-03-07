@@ -1,0 +1,58 @@
+---
+import MainNav from '@/components/common/MainNav.astro'
+import { MobileNav } from '@/components/common/MobileNav'
+import SiteFooter from '@/components/layout/SiteFooter.astro'
+import SiteHeader from '@/components/layout/SiteHeader.astro'
+import { extractSegmentURL } from '@/lib/utils'
+import BaseLayout from './BaseLayout.astro'
+
+type Props = {
+  title: string
+  description?: string
+  image?: string
+  imageAlt?: string
+  mainClass?: string
+}
+
+const segment = extractSegmentURL(Astro.url.pathname)
+
+// TODO
+let imageDefault = segment ? Astro.url.pathname : '/home'
+if (imageDefault.endsWith('/')) {
+  imageDefault = imageDefault.substring(0, imageDefault.lastIndexOf('/'))
+}
+
+const {
+  title,
+  description,
+  mainClass,
+  image = `https://images.antzhu.com${imageDefault}.webp`,
+  imageAlt,
+  } = Astro.props
+
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+>
+  <div class="relative flex min-h-screen flex-col bg-background">
+    <SiteHeader>
+      <MainNav
+        slot="nav-header"
+        segment={segment}
+      />
+      <MobileNav
+        segment={segment}
+        slot="mobile-nav-header"
+        client:load
+      />
+    </SiteHeader>
+    <main class:list={['flex-1', mainClass]}>
+      <slot />
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>

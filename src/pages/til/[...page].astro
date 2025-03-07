@@ -1,0 +1,63 @@
+---
+import type { PaginateFunction } from 'astro'
+import Pagination from '@/components/common/Pagination.astro'
+import { siteConfig } from '@/config/site'
+import { getTils } from '@/lib/fetchers'
+import { type CollectionEntry } from 'astro:content'
+import TilList from './_components/TilList.astro'
+import TilLayout from './_layout/TilLayout.astro'
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction
+}) {
+  const allTils = await getTils()
+  return paginate(
+    allTils,
+    {
+      pageSize: siteConfig.pagination.pageSize,
+    },
+  )
+}
+
+const { page } = Astro.props
+const Tils: {
+  [prop: string]: CollectionEntry<'til'>[]
+} = {}
+
+page.data.forEach((Til) => {
+  const year = Til.data.pubDate.getFullYear()
+  if (!Tils[year]) {
+    Tils[year] = []
+  }
+  Tils[year].push(Til)
+})
+const years = Object.keys(Tils).sort((a, b) => {
+  return Number(b) - Number(a)
+})
+---
+<TilLayout
+  title="Tils"
+  description="Writing record."
+>
+  <div slot="right-content">
+    <section class="ml-1 pt-8">
+      <TilList years={years} til={Tils} />
+      {
+        page.total && page.total > siteConfig.pagination.pageSize
+        ? (
+          <div class="mt-6">
+            <Pagination
+              currentPage={page.currentPage}
+              totalPages={page.lastPage}
+              prevUrl={page.url.prev || ''}
+              nextUrl={page.url.next || ''}
+            />
+          </div>
+        )
+        : null
+      }
+    </section>
+  </div>
+</TilLayout>

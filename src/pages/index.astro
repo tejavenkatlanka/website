@@ -1,0 +1,20 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import Intro from './_components/Intro.astro'
+import RecentPosts from './_components/RecentPosts.astro'
+import RecentTil from './_components/RecentTil.astro'
+
+---
+<MainLayout title="About" description="Anthony's homepage">
+  <div
+    class="scrollable-area container max-w-[948px] relative flex w-full flex-col"
+  >
+    <div class="flex w-full lg:py-12">
+      <div class="mx-auto w-full lg:mb-0 space-y-8">
+        <Intro />
+        <RecentPosts />
+        <RecentTil />
+      </div>
+  </div>
+</MainLayout>
+

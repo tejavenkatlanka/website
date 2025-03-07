@@ -1,0 +1,48 @@
+@import 'variables.css';
+@import 'mdx.css';
+@import 'common.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 5px
+  }
+
+  ::selection:not(img) {
+    @apply bg-ds-gray-1000 text-ds-gray-100;
+  }
+  ::selection img {
+    @apply bg-none;
+  }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+

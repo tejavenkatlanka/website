@@ -1,0 +1,73 @@
+---
+import type { PaginateFunction } from 'astro'
+import Pagination from '@/components/common/Pagination.astro'
+import { siteConfig } from '@/config/site'
+import { getTils } from '@/lib/fetchers'
+import { type CollectionEntry } from 'astro:content'
+import TilList from '../../_components/TilList.astro'
+import TilLayout from '../../_layout/TilLayout.astro'
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction
+}) {
+  const allTils = await getTils()
+  const uniqueCategories = [
+    ...new Set(allTils.map(Til => Til.data.category).flat()),
+  ]
+
+  return uniqueCategories.flatMap((category) => {
+    const filteredTils = allTils
+      .filter(Til => Til.data.category.includes(category))
+    return paginate(filteredTils, {
+      params: { category },
+      pageSize: siteConfig.pagination.pageSize,
+    })
+  })
+}
+
+const { category } = Astro.params
+const { page } = Astro.props
+
+const Tils: {
+  [prop: string]: CollectionEntry<'til'>[]
+} = {}
+
+
+page.data.forEach((Til) => {
+  const year = Til.data.pubDate.getFullYear()
+  if (!Tils[year]) {
+    Tils[year] = []
+  }
+  Tils[year].push(Til)
+})
+const years = Object.keys(Tils).sort((a, b) => {
+  return Number(b) - Number(a)
+})
+---
+
+<TilLayout
+  title={`${category}`}
+  description={`All Tils for ${category}`}
+>
+  <div slot="right-content">
+    <section class="ml-1 pt-8">
+      <TilList years={years} til={Tils} />
+      {
+        page.total && page.total > siteConfig.pagination.pageSize
+        ? (
+          <div class="mt-6">
+            <Pagination
+              currentPage={page.currentPage}
+              totalPages={page.lastPage}
+              prevUrl={page.url.prev || ''}
+              nextUrl={page.url.next || ''}
+            />
+          </div>
+        )
+        : null
+      }
+    </section>
+  </div>
+</TilLayout>

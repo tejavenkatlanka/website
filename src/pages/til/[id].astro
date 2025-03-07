@@ -1,0 +1,39 @@
+---
+import IMG from '@/components/markdown/IMG.astro'
+import { MdxComponents } from '@/components/markdown/mdx-components'
+import Pre from '@/components/markdown/Pre.astro'
+import { getTils } from '@/lib/fetchers'
+import { type CollectionEntry, render } from 'astro:content'
+import TilContentLayout from './_layout/TilContentLayout.astro'
+
+export async function getStaticPaths() {
+  const Tils = await getTils()
+  return Tils.map(Til => ({
+    params: { id: Til.id },
+    props: Til,
+  }))
+}
+
+type Props = CollectionEntry<'til'>
+
+const Til = Astro.props
+const id = Astro.params.id
+const { Content } = await render(Til)
+
+if (!id || !Til) {
+  return new Response(null, {
+    status: 404,
+    statusText: 'Not found',
+  })
+}
+---
+<TilContentLayout {...Til}>
+  <Content
+    components={{
+    ...MdxComponents,
+    img: IMG,
+    Image: IMG,
+    pre: Pre,
+}}
+  />
+</TilContentLayout>

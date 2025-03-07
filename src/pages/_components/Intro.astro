@@ -1,0 +1,69 @@
+---
+import Link from '@/components/common/Link.astro'
+import { siteConfig } from '@/config/site'
+import { Icon } from 'astro-icon/components'
+---
+<dl class="list-container">
+  <dt class="list-title !border-none pb-4 pt-0 leading-relaxed sm:pb-0 px-2">
+    <h1 class="flex items-center gap-1">
+      <Link
+        href="/"
+        title={siteConfig.author}
+        class="font-bold"
+      >
+        { siteConfig.author}
+      </Link>
+    </h1>
+    <span class="text-ds-gray-800 dark:text-silver-dark text-[15px]">
+      Full Stack Developer
+    </span>
+  </dt>
+  <dd class="list-content !border-none px-2 space-y-4 text-[15px]">
+    <p>
+      Hey 👋 I'm { siteConfig.author}, a full stack developer.
+      <!-- at
+      <Link
+        href="https://www.SPG.com/"
+        title="SPG"
+        class="text-sm common-link link-animate"
+      />
+      . -->
+    </p>
+
+    <p>
+      You can find me on :
+    </p>
+    <div class="flex space-x-8 ml-4">
+      <Link
+        href={siteConfig.links.github}
+        title="Github"
+      >
+        <Icon name="simple-icons:github" class="size-5 inline-flex opacity-50 hover:opacity-100" />
+      </Link>
+      <Link
+        href={siteConfig.links.twitter}
+        title="x"
+      >
+        <Icon name="simple-icons:x" class="size-5 inline-flex opacity-50 hover:opacity-100" />
+      </Link>
+      <!-- <Link
+        href={siteConfig.links.blueSky}
+        title="blueSky"
+      >
+        <Icon name="simple-icons:bluesky" class="size-5 inline-flex opacity-50 hover:opacity-100 hover:text-blue-500" />
+      </Link> -->
+      <Link
+        href={siteConfig.links.notion}
+        title="notion"
+      >
+        <Icon name="simple-icons:notion" class="size-5 inline-flex opacity-50 hover:opacity-100" />
+      </Link>
+      <Link
+        href={`mailto:${siteConfig.links.email}`}
+        title="email"
+      >
+        <Icon name="simple-icons:gmail" class="size-5 inline-flex opacity-50 hover:opacity-100" />
+      </Link>
+    </div>
+  </dd>
+</dl>
