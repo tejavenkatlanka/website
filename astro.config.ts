@@ -30,10 +30,10 @@ const res = JSON.stringify(await generateGitData())
  * https://astro.build/config
  */
 export default defineConfig({
-  site: 'https://antzhu.com/',
+  site: 'https://teja-web.netlify.com/',
   prefetch: true,
   integrations: [
-    db(),
+   // db(),
     tailwind({
       applyBaseStyles: false,
     }),

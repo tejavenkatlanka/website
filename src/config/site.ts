@@ -7,7 +7,6 @@ export const siteConfig: SiteConfig = {
   url: 'https://www.antzhu.com',
   repoUrl: 'https://github.com/lankatejavenkat/site-blog',
   slogan: 'Building ...',
-  ogImage: 'https://www.antzhu.com/og.jpg',
   links: {
     twitter: 'https://twitter.com',
     github: 'https://github.com',

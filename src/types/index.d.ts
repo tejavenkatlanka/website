@@ -12,8 +12,7 @@ export interface SiteConfig {
   url: string
   repoUrl: string
   slogan: string
-  ogImage: string
-  links: {
+   links: {
     twitter: string
     github: string
     blueSky: string

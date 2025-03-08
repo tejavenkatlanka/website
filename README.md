@@ -49,8 +49,7 @@ export const siteConfig: SiteConfig = {
   description: 'your description',
   url: 'your site url',
   repoUrl: 'your github repo url',
-  ogImage: 'og image url',
-  links: {
+   links: {
     twitter: 'https://twitter.com/yourusername',
     github: 'https://github.com/yourusername',
     notion: 'your notion site url',
